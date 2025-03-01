@@ -1,4 +1,4 @@
-#include "CPU.hpp"
+#include "cpp/CPU.hpp"
 
 int main() {
     Computer com;
