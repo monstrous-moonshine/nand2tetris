@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Usage:
+# $ ./has < prog.asm > prog.hack
+# $ ./make_rom < prog.hack > rom.sv
+# This will produce the rom module.
+# Could be done with readmemb too...
+
+cat <<'EOF'
+module rom #(parameter N = 15, M = 16)
+            (input  logic [N-1:0] adr,
+             output logic [M-1:0] dout);
+    always_comb
+        case (adr)
+EOF
+count=0
+while read value; do
+    printf "%d: dout = 16'b%s;\n" $count $value
+    count=$((count + 1))
+done
+printf "default: dout = 16'b0;\n"
+cat <<'EOF'
+        endcase
+endmodule
+EOF
