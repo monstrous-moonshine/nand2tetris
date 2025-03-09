@@ -15,7 +15,7 @@ extern "C" short readkey() {
 }
 
 extern "C" void write_disp(short adr, short din) {
-    fprintf(stderr, "INFO: %s(%d, %d)\n", __func__, adr, din);
+    //fprintf(stderr, "INFO: %s(%d, %d)\n", __func__, adr, din);
     VALIDATE(SDL_LockSurface(gui->surf));
     ((short *)gui->surf->pixels)[adr] = din;
     SDL_UnlockSurface(gui->surf);
