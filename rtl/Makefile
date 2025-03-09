@@ -1,11 +1,14 @@
 CXXFLAGS = $(shell pkg-config --cflags verilator) -Iobj_dir/ -Os
-VERILATOR_FLAGS = -Wall --cc --trace
-LDLIBS = obj_dir/libverilated.a
+VERILATOR_FLAGS = -Wall --cc #--trace
+LDLIBS = obj_dir/libverilated.a -lSDL3
 
 hack: hack.cpp obj_dir/libVhack.a
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDLIBS)
 
-obj_dir/libVhack.a: hack.sv cpu.sv ram.sv rom.sv
+hack.cpp: io.hpp
+	@touch $@
+
+obj_dir/libVhack.a: hack.sv cpu.sv alu.sv memory.sv ram.sv rom.sv
 	verilator $(VERILATOR_FLAGS) $<
 	make -C obj_dir/ -f Vhack.mk
 
