@@ -4,8 +4,7 @@
 module hack(input logic clk, reset);
     logic writeM;
     logic [15:0] instr, inM, outM;
-    logic [14:0] pc;
-    logic [13:0] addrM;
+    logic [14:0] addrM, pc;
 
     cpu m_cpu(
         .clk   (clk),
@@ -20,7 +19,7 @@ module hack(input logic clk, reset);
         // verilator lint_on WIDTHEXPAND
     );
 
-    ram m_ram(
+    memory m_mem(
         .clk (clk),
         .we  (writeM),
         .adr (addrM),

@@ -5,7 +5,7 @@ module rom #(parameter N = 15, M = 16)
     logic [15:0] ROM [2**N-1:0];
 
     initial
-        $readmemb("../sum.hack", ROM);
+        $readmemb("../rect.hack", ROM);
 
     assign dout = ROM[adr];
 endmodule

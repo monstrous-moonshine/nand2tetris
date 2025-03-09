@@ -43,7 +43,5 @@ module cpu(input  logic        clk, reset,
             pc <= areg;
         else
             pc <= pc + 1;
-        if (pc == 18)
-            $finish;
     end
 endmodule
