@@ -10,6 +10,7 @@ struct CPU {
         for (int i = 0; i < 16; i++) instbits[i] = Wire{instr, i};
     }
     void step() {
+        if (*pc == 18) sim_done = true;
         A_M_sel();
         alu();
         A_C_sel();
@@ -23,6 +24,7 @@ struct CPU {
         *writeM = instbits[15] && instbits[3];
         *addressM = static_cast<int>(Aout);
     }
+    static bool sim_done;
 private:
     // inputs
     const Wire16 *inM, *instr;
