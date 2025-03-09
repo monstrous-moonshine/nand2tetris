@@ -1,15 +1,14 @@
-`include "alu.sv"
 module cpu(input  logic        clk, reset,
            input  logic [15:0] instr, inM,
            output logic        writeM,
            output logic [15:0] outM, addrM, pc);
 
-    logic [15:0] acmux, areg, ammux, dreg;
+    logic [15:0] a_or_c, areg, a_or_m, dreg;
     logic zr, ng, load_A, load_D, load_PC, should_jmp;
 
     alu alu1(
         .x  (dreg),
-        .y  (ammux),
+        .y  (a_or_m),
         .zx (instr[11]),
         .nx (instr[10]),
         .zy (instr[ 9]),
@@ -20,8 +19,8 @@ module cpu(input  logic        clk, reset,
         .zr (zr),
         .ng (ng));
 
-    assign acmux = instr[15] ? outM : instr;
-    assign ammux = instr[12] ? inM : areg;
+    assign a_or_c = instr[15] ? outM : instr;
+    assign a_or_m = instr[12] ? inM : areg;
     assign writeM = instr[15] && instr[3];
     assign addrM = areg;
     assign should_jmp = ng && instr[2] ||
@@ -34,7 +33,7 @@ module cpu(input  logic        clk, reset,
     always_ff @(posedge clk)
     begin
         if (load_A)
-            areg <= acmux;
+            areg <= a_or_c;
         if (load_D)
             dreg <= outM;
         if (reset)
